@@ -15,7 +15,7 @@ public class GreetingController {
 
     @RequestMapping("/greeting/{name}")
     public Greeting greeting(@PathVariable String name) {
-        Address address =new Address("2jldhfes","sdlfjlsw","asdfklesw","jlgf");
+        Address address =new Address("20","100","300","Dhaka");
         List<String> teammembers = new ArrayList<>();
         teammembers.add( "Arafat");
         teammembers.add("Shahidul");
