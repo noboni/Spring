@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.dc.pr.PRError;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -37,5 +38,14 @@ public class ProductController {
             Product product=productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found for this id :: " + id));
             productRepository.delete(product);
         }
+        @GetMapping(path="/product/pricegreaterorequal/{price}")
+        public List<Product> findProductGreaterOrEqualPrice(@PathVariable float price){
+            return productRepository.findByPriceGreaterThanEqual(price);
+        }
+        @GetMapping(path="/product/bynameandprice")
+        public List<Product> findProductByNameAndPrice(@RequestParam String name,@RequestParam float price){
+            return productRepository.findByNameStartingWithAndPriceLessThan(name,price);
+        }
+
 
 }

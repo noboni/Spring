@@ -1,6 +1,10 @@
 package hello;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends CrudRepository<Product,Long> {
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product,Long> {
+    List<Product> findByPriceGreaterThanEqual(float price);
+    List<Product> findByNameStartingWithAndPriceLessThan(String name,float price);
 }
