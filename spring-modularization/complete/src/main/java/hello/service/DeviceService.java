@@ -3,6 +3,7 @@ package hello.service;
 import hello.ResourceNotFoundException;
 import hello.dao.DeviceDao;
 import hello.entity.Device;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +11,10 @@ import java.util.Optional;
 
 @Service
 public class DeviceService {
-    DeviceDao deviceDao=new DeviceDao();
+    @Autowired
+    DeviceDao deviceDao;
     public Optional<Device> get(Long id) {
+        System.out.println(deviceDao.get(id));
         return deviceDao.get(id);
     }
 

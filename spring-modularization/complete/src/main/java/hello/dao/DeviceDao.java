@@ -1,13 +1,13 @@
 package hello.dao;
 
-import hello.ResourceNotFoundException;
 import hello.entity.Device;
 import hello.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public class DeviceDao {
     @Autowired
     DeviceRepository deviceRepository;

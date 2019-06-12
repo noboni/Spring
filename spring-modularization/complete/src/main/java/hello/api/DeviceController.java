@@ -2,12 +2,15 @@ package hello.api;
 
 import hello.entity.Device;
 import hello.model.DeviceRequestModel;
-import hello.repository.DeviceRepository;
+import hello.model.DeviceResponseModel;
 import hello.ResourceNotFoundException;
 import hello.service.DeviceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/api")
@@ -16,32 +19,28 @@ public class DeviceController {
     ModelMapper modelMapper;
     @Autowired
     DeviceService deviceService;
-    /*@GetMapping(path="/devices")
-    public Iterable<Device> getAllDevices() {
-        return deviceRepository.findAll();
-    }*/
-    @PostMapping(path="/device")
-    public Device addDevice(@RequestBody DeviceRequestModel deviceRequestModel){
-        Device device=modelMapper.map(deviceRequestModel,Device.class);
-        System.out.println(device);
-        return deviceService.save(device);
+    @GetMapping(path="/devices")
+    public Iterable<DeviceResponseModel> getAllDevices() {
+        return deviceService.getAll().stream().map(device -> modelMapper.map(device, DeviceResponseModel.class)).collect(Collectors.toList());
+
     }
-   /* @GetMapping(path = "/device/{id}")
-    public Device getById(@PathVariable Long id) throws ResourceNotFoundException {
-        return deviceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
+    @PostMapping(path="/device")
+    public DeviceResponseModel addDevice(@RequestBody DeviceRequestModel deviceRequestModel){
+        Device device=modelMapper.map(deviceRequestModel,Device.class);
+        return modelMapper.map(deviceService.save(device),DeviceResponseModel.class);
+    }
+    @GetMapping(path = "/device/{id}")
+    public DeviceResponseModel getById(@PathVariable Long id) {
+        return modelMapper.map(deviceService.get(id).get(),DeviceResponseModel.class);
     }
     @PutMapping(path="/device/{id}")
-    public Device updateDevice(@PathVariable Long id, @RequestBody Device device) throws ResourceNotFoundException {
-        Device existingDevice=deviceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
-        existingDevice.setMac(device.getMac());
-        existingDevice.setDeviceToken(device.getDeviceToken());
-        existingDevice.setOs(device.getOs());
-        return deviceRepository.save(existingDevice);
+    public DeviceResponseModel updateDevice(@PathVariable Long id, @RequestBody DeviceRequestModel deviceRequestModel) throws ResourceNotFoundException {
+        Device device=modelMapper.map(deviceRequestModel,Device.class);
+        return modelMapper.map(deviceService.updateDevice(id,device),DeviceResponseModel.class);
 
     }
     @DeleteMapping(path="/device/{id}")
     public void deleteDevice(@PathVariable Long id) throws ResourceNotFoundException {
-        Device device=deviceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
-        deviceRepository.delete(device);
-    }*/
+        deviceService.delete(id);
+    }
 }

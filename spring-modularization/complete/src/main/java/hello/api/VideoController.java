@@ -1,39 +1,44 @@
 package hello.api;
 
-import hello.ResourceNotFoundException;
 import hello.entity.Video;
-import hello.repository.VideoRepository;
+import hello.model.VideoRequestModel;
+import hello.model.VideoResponseModel;
+import hello.ResourceNotFoundException;
+import hello.service.VideoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/api")
 public class VideoController {
     @Autowired
-    private VideoRepository videoRepository;
+    ModelMapper modelMapper;
+    @Autowired
+    VideoService videoService;
     @GetMapping(path="/videos")
-    public Iterable<Video> getAllVideos() {
-        return videoRepository.findAll();
+    public Iterable<VideoResponseModel> getAllVideos() {
+        return videoService.getAll().stream().map(video -> modelMapper.map(video, VideoResponseModel.class)).collect(Collectors.toList());
+
     }
     @PostMapping(path="/video")
-    public Video addVideo(@RequestBody Video video){
-        return videoRepository.save(video);
+    public VideoResponseModel addVideo(@RequestBody VideoRequestModel videoRequestModel){
+        Video video=modelMapper.map(videoRequestModel,Video.class);
+        return modelMapper.map(videoService.save(video),VideoResponseModel.class);
     }
     @GetMapping(path = "/video/{id}")
-    public Video getById(@PathVariable Long id) throws ResourceNotFoundException {
-        return videoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Video not found for this id :: " + id));
+    public VideoResponseModel getById(@PathVariable Long id) {
+        return modelMapper.map(videoService.get(id).get(),VideoResponseModel.class);
     }
     @PutMapping(path="/video/{id}")
-    public Video updateVideo(@PathVariable Long id, @RequestBody Video video) throws ResourceNotFoundException {
-        Video existingVideo=videoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Video not found for this id :: " + id));
-        existingVideo.setFilename(video.getFilename());
-        existingVideo.setUser(video.getUser());
-        return videoRepository.save(existingVideo);
+    public VideoResponseModel updateVideo(@PathVariable Long id, @RequestBody VideoRequestModel videoRequestModel) throws ResourceNotFoundException {
+        Video video=modelMapper.map(videoRequestModel,Video.class);
+        return modelMapper.map(videoService.updateVideo(id,video),VideoResponseModel.class);
 
     }
     @DeleteMapping(path="/video/{id}")
     public void deleteVideo(@PathVariable Long id) throws ResourceNotFoundException {
-        Video video=videoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Video not found for this id :: " + id));
-        videoRepository.delete(video);
+        videoService.delete(id);
     }
 }
