@@ -1,8 +1,11 @@
-package hello;
+package hello.api;
 
-import hello.Device;
-import hello.DeviceRepository;
+import hello.entity.Device;
+import hello.model.DeviceRequestModel;
+import hello.repository.DeviceRepository;
 import hello.ResourceNotFoundException;
+import hello.service.DeviceService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +13,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api")
 public class DeviceController {
     @Autowired
-    private DeviceRepository deviceRepository;
-    @GetMapping(path="/devices")
+    ModelMapper modelMapper;
+    @Autowired
+    DeviceService deviceService;
+    /*@GetMapping(path="/devices")
     public Iterable<Device> getAllDevices() {
         return deviceRepository.findAll();
-    }
+    }*/
     @PostMapping(path="/device")
-    public Device addDevice(@RequestBody Device device){
-        return deviceRepository.save(device);
+    public Device addDevice(@RequestBody DeviceRequestModel deviceRequestModel){
+        Device device=modelMapper.map(deviceRequestModel,Device.class);
+        System.out.println(device);
+        return deviceService.save(device);
     }
-    @GetMapping(path = "/device/{id}")
+   /* @GetMapping(path = "/device/{id}")
     public Device getById(@PathVariable Long id) throws ResourceNotFoundException {
         return deviceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
     }
@@ -36,5 +43,5 @@ public class DeviceController {
     public void deleteDevice(@PathVariable Long id) throws ResourceNotFoundException {
         Device device=deviceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
         deviceRepository.delete(device);
-    }
+    }*/
 }

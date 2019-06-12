@@ -1,5 +1,6 @@
-package hello;
+package hello.repository;
 
+import hello.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

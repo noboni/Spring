@@ -1,20 +1,22 @@
-package hello;
+package hello.entity;
 
+import hello.entity.Device;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
-public class Video {
+@Data
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private User user;
-    private String filename;
+    private String name;
+    private Long age;
+    @OneToOne
+    @JoinColumn(name = "device_id")
+    private Device device;
     private Date createdAt;
     private Date updatedAt;
     @Version

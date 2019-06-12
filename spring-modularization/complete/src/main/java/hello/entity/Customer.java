@@ -1,5 +1,5 @@
 // tag::sample[]
-package hello;
+package hello.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

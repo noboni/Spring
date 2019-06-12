@@ -1,5 +1,8 @@
-package hello;
+package hello.api;
 
+import hello.ResourceNotFoundException;
+import hello.entity.User;
+import hello.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

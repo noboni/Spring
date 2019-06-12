@@ -1,4 +1,4 @@
-package hello;
+package hello.entity;
 
 import lombok.Data;
 
@@ -26,4 +26,5 @@ public class Device {
     protected void updatedOn(){
         updatedAt=new Date();
     }
+
 }

@@ -1,12 +1,12 @@
-package hello;
+package hello.api;
 
+import hello.entity.Product;
+import hello.repository.ProductRepository;
+import hello.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.dc.pr.PRError;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/api")

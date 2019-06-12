@@ -1,5 +1,8 @@
-package hello;
+package hello.api;
 
+import hello.ResourceNotFoundException;
+import hello.entity.Video;
+import hello.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
