@@ -28,13 +28,12 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTest {
-	
+
 	@Autowired
-	private RestTemplate restTemplate;
+	private PostController controller;
 
 	@Test
-	public void contextLoads() {
-		assertThat(restTemplate).isNotNull();
+	public void contexLoads() throws Exception {
+		assertThat(controller).isNotNull();
 	}
-
 }
