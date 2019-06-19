@@ -7,8 +7,6 @@ import hello.api.VideoController;
 import hello.dao.DeviceDao;
 import hello.dao.UserDao;
 import hello.dao.VideoDao;
-import hello.entity.Device;
-import hello.entity.User;
 import hello.gateway.PostGateway;
 import hello.repository.CustomerRepository;
 import hello.repository.DeviceRepository;
