@@ -5,10 +5,15 @@ import hello.model.DeviceRequestModel;
 import hello.model.DeviceResponseModel;
 import hello.ResourceNotFoundException;
 import hello.service.DeviceService;
+import hello.service.ServiceLocator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.stream.Collectors;
 
 @RestController
@@ -16,8 +21,15 @@ import java.util.stream.Collectors;
 public class DeviceController {
     @Autowired
     ModelMapper modelMapper;
+    @Value("${demo.service.imple.id}")
+    String value;
     @Autowired
+    ServiceLocator serviceLocator;
     DeviceService deviceService;
+    @PostConstruct
+    void createService(){
+        this.deviceService= serviceLocator.get(value);
+    }
     @GetMapping(path="/devices")
     public Iterable<DeviceResponseModel> getAllDevices() {
         return deviceService.getAll().stream().map(device -> modelMapper.map(device, DeviceResponseModel.class)).collect(Collectors.toList());

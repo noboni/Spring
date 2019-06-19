@@ -1,11 +1,16 @@
 package hello.service;
 
+import com.sun.org.apache.bcel.internal.classfile.Constant;
 import hello.ResourceNotFoundException;
 import hello.dao.UserDao;
+import hello.entity.Device;
 import hello.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +18,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
     @Autowired
     UserDao userDao;
+    @Value("${demo.service.imple.id}")
+    String value;
     @Autowired
-    DeviceService deviceService;
+    ServiceLocator serviceLocator;
+//    DeviceService deviceService = serviceLocator.get(value);
     public Optional<User> get(Long id) {
         System.out.println(userDao.get(id));
         return userDao.get(id);
@@ -24,7 +32,7 @@ public class UserServiceImpl implements UserService{
         return userDao.getAll();
     }
     public User save(User user) {
-        user.setDevice(deviceService.save(user.getDevice()));
+        user.setDevice(serviceLocator.get(value).save(user.getDevice()));
         return userDao.save(user);
     }
     public void delete(Long id) throws ResourceNotFoundException {
@@ -35,7 +43,9 @@ public class UserServiceImpl implements UserService{
         User existingUser= userDao.get(id).orElseThrow(()->new ResourceNotFoundException("User not found for this id :: " + id));
         existingUser.setAge(user.getAge());
         existingUser.setName(user.getName());
-        existingUser.setDevice(deviceService.save(user.getDevice()));
+        DeviceService deviceService = serviceLocator.get(value);
+        Device device = deviceService.save(user.getDevice());
+        existingUser.setDevice(device);
         return userDao.save(existingUser);
 
     }

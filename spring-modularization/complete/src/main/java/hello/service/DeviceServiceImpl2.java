@@ -4,15 +4,12 @@ import hello.ResourceNotFoundException;
 import hello.dao.DeviceDao;
 import hello.entity.Device;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
-public class DeviceServiceImpl implements DeviceService{
+public class DeviceServiceImpl2 implements DeviceService{
     @Autowired
     DeviceDao deviceDao;
     public Optional<Device> get(Long id) {
@@ -33,8 +30,8 @@ public class DeviceServiceImpl implements DeviceService{
     public Device updateDevice(Long id,Device device) throws ResourceNotFoundException {
         Device existingDevice= deviceDao.get(id).orElseThrow(()->new ResourceNotFoundException("Device not found for this id :: " + id));
         existingDevice.setMac(device.getMac());
-        existingDevice.setDeviceToken(device.getDeviceToken());
-        existingDevice.setOs(device.getOs());
+        existingDevice.setDeviceToken("Device: "+device.getDeviceToken());
+        existingDevice.setOs(device.getOs()+" System");
         return deviceDao.save(existingDevice);
 
     }
