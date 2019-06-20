@@ -7,6 +7,7 @@ import hello.ResourceNotFoundException;
 import hello.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ public class UserController {
     @Autowired
     ModelMapper modelMapper;
     @Autowired
+    @Qualifier("1")
     UserService userService;
     @GetMapping(path="/users")
     public Iterable<UserResponseModel> getAllUsers() {

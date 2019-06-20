@@ -8,5 +8,7 @@ public class PostResponseModel {
     private Long id;
     private String title;
     private String body;
+    private long requestTimeInMillis;
+    private long responseTimeInMillis;
     private long timeTaken;
 }

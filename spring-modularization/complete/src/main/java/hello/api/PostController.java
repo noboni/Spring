@@ -7,12 +7,14 @@ import hello.model.PostResponseModel;
 import hello.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/v1")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EnableAutoConfiguration
 public class PostController {
     @Autowired
     RestTemplate restTemplate;

@@ -4,6 +4,7 @@ import hello.ResourceNotFoundException;
 import hello.dao.VideoDao;
 import hello.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     VideoDao videoDao;
     @Autowired
+    @Qualifier("2")
     UserService userService;
 
     public Optional<Video> get(Long id) {

@@ -1,30 +1,26 @@
 package hello.service;
 
-import com.sun.org.apache.bcel.internal.classfile.Constant;
 import hello.ResourceNotFoundException;
 import hello.dao.UserDao;
 import hello.entity.Device;
 import hello.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
-@Service("1")
-public class UserServiceImpl implements UserService{
+@Service("2")
+public class UserServiceImpl1 implements UserService{
     @Autowired
     UserDao userDao;
     @Value("${demo.service.imple.id}")
     String value;
     @Autowired
     ServiceLocator serviceLocator;
-//    DeviceService deviceService = serviceLocator.get(value);
+    //    DeviceService deviceService = serviceLocator.get(value);
     public Optional<User> get(Long id) {
-        System.out.println(userDao.get(id));
+        //System.out.println(userDao.get(id));
         return userDao.get(id);
     }
 
@@ -42,7 +38,7 @@ public class UserServiceImpl implements UserService{
     public User updateUser(Long id,User user) throws ResourceNotFoundException {
         User existingUser= userDao.get(id).orElseThrow(()->new ResourceNotFoundException("User not found for this id :: " + id));
         existingUser.setAge(user.getAge());
-        existingUser.setName(user.getName());
+        existingUser.setName("name:"+user.getName());
         DeviceService deviceService = serviceLocator.get(value);
         Device device = deviceService.save(user.getDevice());
         existingUser.setDevice(device);
@@ -50,3 +46,4 @@ public class UserServiceImpl implements UserService{
 
     }
 }
+
