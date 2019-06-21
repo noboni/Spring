@@ -1,12 +1,6 @@
 package hello;
 
-import hello.entity.Device;
-import hello.service.DeviceService;
-import hello.service.DeviceServiceImpl;
-import hello.service.DeviceServiceImpl2;
-import hello.service.ServiceLocator;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;

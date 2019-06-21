@@ -32,17 +32,19 @@ public class BookController {
         return bookService.getAll().stream().map(book -> modelMapper.map(book, BookResponseModel.class)).collect(Collectors.toList());
 
     }
+    @CachePut(value = "book-single", key = "#result._id")
     @PostMapping(path="/book")
     public BookResponseModel addBook(@RequestBody BookRequestModel bookRequestModel){
         Book book=modelMapper.map(bookRequestModel,Book.class);
         return modelMapper.map(bookService.save(book),BookResponseModel.class);
+
     }
     @Cacheable(value = "book-single", key = "#id")
     @GetMapping(path = "/book/{id}")
     public BookResponseModel getById(@PathVariable ObjectId id) {
         return modelMapper.map(bookService.get(id),BookResponseModel.class);
     }
-    @CachePut(value = "book-single", key = "#book.id")
+    @CachePut(value = "book-single", key = "#id")
     @PutMapping(path="/book/{id}")
     public BookResponseModel updateBook(@PathVariable ObjectId id, @RequestBody BookRequestModel bookRequestModel) throws ResourceNotFoundException {
         Book book=modelMapper.map(bookRequestModel,Book.class);
