@@ -4,15 +4,14 @@ import hello.entity.Post;
 import hello.gateway.PostGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 @Service
-@ConditionalOnExpression(
-        "'${demo.service.imple.id}'=='2'"
-)
+@ConditionalOnProperty(name = "post.service.imple.id", havingValue = "postServiceWithOutTimeStamp")
 public class PostServiceImpl1 implements PostService{
     @Autowired
     RestTemplate restTemplate;
